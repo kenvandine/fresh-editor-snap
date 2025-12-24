@@ -1,6 +1,6 @@
 name: fresh-editor
 base: core24
-version: v0.1.59
+version: 0.1.59
 summary: Text editor for your terminal
 description: |
   Text editor for your terminal: easy, powerful and fast
@@ -33,6 +33,6 @@ parts:
 
   fresh-editor:
     source: https://github.com/sinelaw/fresh.git
-    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    source-tag: v$SNAPCRAFT_PROJECT_VERSION
     plugin: rust
     build-attributes: [enable-patchelf]
