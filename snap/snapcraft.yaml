@@ -1,0 +1,38 @@
+name: fresh-editor
+base: core24
+version: v0.1.59
+summary: Text editor for your terminal
+description: |
+  Text editor for your terminal: easy, powerful and fast
+grade: stable
+confinement: classic
+contact: https://github.com/kenvandine/fresh-editor-snap
+issues: https://github.com/kenvandine/fresh-editor-snap/issues
+website: https://sinelaw.github.io/fresh/
+source-code: https://github.com/sinelaw/fresh
+license: GPL-2.0
+icon: icon.svg
+adopt-info: fresh-editor
+
+platforms:
+  amd64:
+  arm64:
+
+apps:
+  fresh-editor:
+    command: bin/fresh
+    command-chain: [app/launcher]
+
+parts:
+  launcher:
+    plugin: dump
+    source: snap/local
+    source-type: local
+    organize:
+      launcher: app/
+
+  fresh-editor:
+    source: https://github.com/sinelaw/fresh.git
+    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    plugin: rust
+    build-attributes: [enable-patchelf]
