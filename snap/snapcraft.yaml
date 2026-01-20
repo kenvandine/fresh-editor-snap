@@ -20,7 +20,7 @@ platforms:
 
 apps:
   fresh-editor:
-    command: bin/fresh
+    command: fresh
     command-chain: [app/launcher]
 
 parts:
@@ -36,3 +36,5 @@ parts:
     source-tag: v$SNAPCRAFT_PROJECT_VERSION
     plugin: rust
     build-attributes: [enable-patchelf]
+    build-packages:
+      - libclang-20-dev
