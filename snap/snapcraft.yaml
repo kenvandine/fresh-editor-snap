@@ -1,6 +1,6 @@
 name: fresh-editor
 base: core24
-version: 0.3.12
+version: 0.4.0
 summary: Text editor for your terminal
 description: |
   Text editor for your terminal: easy, powerful and fast
