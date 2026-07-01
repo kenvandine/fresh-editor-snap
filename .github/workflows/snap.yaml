@@ -3,6 +3,7 @@ name: Snap
 on:
   push:
     branches: [main]
+  pull_request:
   release:
     types: [published]
   workflow_dispatch:
@@ -10,6 +11,8 @@ on:
 jobs:
   build-amd64:
     runs-on: ubuntu-24.04
+    outputs:
+      snap: ${{ steps.build.outputs.snap }}
     steps:
     - uses: actions/checkout@v4
       with:
@@ -17,14 +20,23 @@ jobs:
         fetch-tags: true
     - uses: snapcore/action-build@v1
       id: build
-    - uses: snapcore/action-publish@v1
+    - uses: actions/upload-artifact@v4
+      with:
+        name: snap-amd64
+        path: ${{ steps.build.outputs.snap }}
+    - name: Publish snap
+      if: github.event_name != 'pull_request'
+      uses: snapcore/action-publish@v1
       env:
         SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.STORE_LOGIN }}
       with:
         snap: ${{ steps.build.outputs.snap }}
         release: edge
+
   build-arm64:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-24.04-arm
+    outputs:
+      snap: ${{ steps.build.outputs.snap }}
     steps:
     - uses: actions/checkout@v4
       with:
@@ -32,7 +44,13 @@ jobs:
         fetch-tags: true
     - uses: snapcore/action-build@v1
       id: build
-    - uses: snapcore/action-publish@v1
+    - uses: actions/upload-artifact@v4
+      with:
+        name: snap-arm64
+        path: ${{ steps.build.outputs.snap }}
+    - name: Publish snap
+      if: github.event_name != 'pull_request'
+      uses: snapcore/action-publish@v1
       env:
         SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.STORE_LOGIN }}
       with:
