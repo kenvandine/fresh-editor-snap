@@ -31,3 +31,23 @@ involved in running tests.
   design — tests run on a registered remote runner.
 - Redundant upstream-polling / sync-release workflows that duplicate automated-ken's
   own version-bump automation should be removed to avoid conflicting/duplicate PRs.
+
+## Upstream release detection
+
+Upstream is `sinelaw/fresh` on GitHub, and this repo's `source:` already
+points directly at `https://github.com/sinelaw/fresh.git`, so
+automated-ken's generic GitHub upstream checker
+(`snap_dashboard.snapcraft.upstream.get_latest_version` /
+`_github_latest`) already handles this snap correctly:
+
+- It queries `https://api.github.com/repos/sinelaw/fresh/releases/latest`
+  (falls back to the most recent tag if there is no release), which
+  already excludes drafts/prereleases.
+- The version is the release's `tag_name` with a leading `v` stripped
+  (e.g. tag `v0.5.1` → version `0.5.1`).
+- Compare against the top-level `version:` field in `snap/snapcraft.yaml`
+  and update it directly if different — no `craftctl`/`source-tag`
+  involved for this snap.
+
+No custom logic is required here; this note exists so agents don't need
+to re-derive it from the now-removed `sync-release.yml` workflow.
