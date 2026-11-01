@@ -1,6 +1,6 @@
 name: fresh-editor
 base: core24
-version: 0.5.4
+version: 0.5.7
 summary: Text editor for your terminal
 description: |
   Text editor for your terminal: easy, powerful and fast
@@ -33,7 +33,7 @@ parts:
 
   fresh-editor:
     source: https://github.com/sinelaw/fresh.git
-    source-tag: v0.5.4
+    source-tag: v0.5.7
     plugin: rust
     build-attributes: [enable-patchelf]
     build-packages:
